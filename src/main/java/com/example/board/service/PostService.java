@@ -26,10 +26,12 @@ public class PostService {
         return postRepository.findAll(pageRequest);
     }
 
-    // 단건 조회
+    // 단건 조회 (조회수 증가)
     public Post getPost(Long id) {
-        return postRepository.findById(id)
+        Post post = postRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다."));
+        post.setViewCount(post.getViewCount() + 1);
+        return postRepository.save(post);
     }
 
     // 생성

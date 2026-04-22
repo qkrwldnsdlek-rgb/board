@@ -29,6 +29,9 @@ public class Post {
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
+    @Column(columnDefinition = "integer default 0")
+    private int viewCount;
+
     private LocalDateTime updatedAt;
 
     @PrePersist
