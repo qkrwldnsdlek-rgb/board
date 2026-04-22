@@ -32,6 +32,9 @@ public class Post {
     @Column(columnDefinition = "integer default 0")
     private int viewCount;
 
+    @Column
+    private String imageUrl;
+
     private LocalDateTime updatedAt;
 
     @PrePersist
