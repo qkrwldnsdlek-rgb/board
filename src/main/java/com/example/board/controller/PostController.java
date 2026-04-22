@@ -18,12 +18,13 @@ public class PostController {
 
     private final PostService postService;
 
-    // 전체 조회 (페이징)
+    // 전체 조회 (페이징 + 검색)
     @GetMapping
     public Page<Post> getAllPosts(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-        return postService.getAllPosts(page, size);
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String keyword) {
+        return postService.getAllPosts(page, size, keyword);
     }
 
     // 단건 조회
