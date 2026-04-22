@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
 @RestController
 @RequestMapping("/api/posts")
 @RequiredArgsConstructor
@@ -16,10 +18,12 @@ public class PostController {
 
     private final PostService postService;
 
-    // 전체 조회
+    // 전체 조회 (페이징)
     @GetMapping
-    public List<Post> getAllPosts() {
-        return postService.getAllPosts();
+    public Page<Post> getAllPosts(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return postService.getAllPosts(page, size);
     }
 
     // 단건 조회

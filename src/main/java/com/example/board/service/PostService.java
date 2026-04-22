@@ -7,15 +7,20 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+
 @Service
 @RequiredArgsConstructor
 public class PostService {
 
     private final PostRepository postRepository;
 
-    // 전체 조회
-    public List<Post> getAllPosts() {
-        return postRepository.findAll();
+    // 전체 조회 (페이징)
+    public Page<Post> getAllPosts(int page, int size) {
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+        return postRepository.findAll(pageRequest);
     }
 
     // 단건 조회
