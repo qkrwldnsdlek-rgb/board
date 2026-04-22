@@ -11,7 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/posts")
 @RequiredArgsConstructor
-@CrossOrigin(origins = {"http://localhost:5173", "https://board-front-beta.vercel.app"})
+@CrossOrigin(origins = {"http://localhost:5173", "https://board-pjw.vercel.app"})
 public class PostController {
 
     private final PostService postService;
