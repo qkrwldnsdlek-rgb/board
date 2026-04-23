@@ -35,6 +35,9 @@ public class Post {
     @Column
     private String imageUrl;
 
+    @Column
+    private String userId;
+
     private LocalDateTime updatedAt;
 
     @PrePersist
