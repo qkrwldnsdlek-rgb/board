@@ -25,11 +25,13 @@ public class PostService {
         boolean hasCategory = category != null && !category.isEmpty() && !category.equals("전체");
 
         if (hasCategory && hasKeyword) {
-            return postRepository.findByCategoryAndTitleContainingIgnoreCase(category, keyword, pageRequest);
+            return postRepository.findByCategoryAndTitleContainingIgnoreCaseOrCategoryAndContentContainingIgnoreCase(
+                    category, keyword, category, keyword, pageRequest);
         } else if (hasCategory) {
             return postRepository.findByCategory(category, pageRequest);
         } else if (hasKeyword) {
-            return postRepository.findByTitleContainingIgnoreCase(keyword, pageRequest);
+            return postRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(
+                    keyword, keyword, pageRequest);
         }
         return postRepository.findAll(pageRequest);
     }
