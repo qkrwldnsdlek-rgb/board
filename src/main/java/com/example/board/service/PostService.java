@@ -18,9 +18,17 @@ public class PostService {
     private final PostRepository postRepository;
 
     // 전체 조회 / 검색 (페이징)
-    public Page<Post> getAllPosts(int page, int size, String keyword) {
+    public Page<Post> getAllPosts(int page, int size, String keyword, String category) {
         PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
-        if (keyword != null && !keyword.isEmpty()) {
+
+        boolean hasKeyword = keyword != null && !keyword.isEmpty();
+        boolean hasCategory = category != null && !category.isEmpty() && !category.equals("전체");
+
+        if (hasCategory && hasKeyword) {
+            return postRepository.findByCategoryAndTitleContainingIgnoreCase(category, keyword, pageRequest);
+        } else if (hasCategory) {
+            return postRepository.findByCategory(category, pageRequest);
+        } else if (hasKeyword) {
             return postRepository.findByTitleContainingIgnoreCase(keyword, pageRequest);
         }
         return postRepository.findAll(pageRequest);

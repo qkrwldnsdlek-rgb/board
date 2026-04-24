@@ -38,6 +38,9 @@ public class Post {
     @Column
     private String userId;
 
+    @Column
+    private String category;
+
     private LocalDateTime updatedAt;
 
     @PrePersist

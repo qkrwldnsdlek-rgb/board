@@ -23,8 +23,9 @@ public class PostController {
     public Page<Post> getAllPosts(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(required = false) String keyword) {
-        return postService.getAllPosts(page, size, keyword);
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) String category) {
+        return postService.getAllPosts(page, size, keyword, category);
     }
 
     // 단건 조회
