@@ -54,6 +54,7 @@ public class PostService {
         post.setContent(updatedPost.getContent());
         post.setAuthor(updatedPost.getAuthor());
         post.setImageUrl(updatedPost.getImageUrl());
+        post.setCategory(updatedPost.getCategory());
         post.setUserId(updatedPost.getUserId());
         return postRepository.save(post);
     }
