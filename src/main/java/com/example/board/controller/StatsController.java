@@ -24,4 +24,11 @@ public class StatsController {
         stats.put("totalPosts", statsService.getTotalPosts());
         return stats;
     }
+
+    @GetMapping("/weekly")
+    public List<Map<String, Object>> getWeeklyStats() {
+        List<Map<String, Object>> result = statsService.getWeeklyStats();
+        return result;
+    }
+
 }

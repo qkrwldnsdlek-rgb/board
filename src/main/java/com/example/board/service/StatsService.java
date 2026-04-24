@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -40,4 +42,20 @@ public class StatsService {
     public long getTotalPosts() {
         return postRepository.count();
     }
+
+    public List<Map<String, Object>> getWeeklyStats() {
+        List<Map<String, Object>> result = new ArrayList<>();
+        for (int i = 6; i >= 0; i--) {
+            LocalDate date = LocalDate.now().minusDays(i);
+            int count = statsRepository.findByVisitDate(date)
+                    .map(SiteStats::getVisitCount)
+                    .orElse(0);
+            Map<String, Object> map = new HashMap<>();
+            map.put("date", date.toString());
+            map.put("count", count);
+            result.add(map);
+        }
+        return result;
+    }
+
 }
