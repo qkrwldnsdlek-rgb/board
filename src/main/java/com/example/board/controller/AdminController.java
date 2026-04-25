@@ -47,9 +47,21 @@ public class AdminController {
     public ResponseEntity<?> getAllPosts(
             @RequestHeader("X-User-Email") String email,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) String searchType,
+            @RequestParam(required = false) String category) {
         if (!isAdmin(email)) return ResponseEntity.status(HttpStatus.FORBIDDEN).body("접근 권한이 없습니다.");
-        return ResponseEntity.ok(postService.getAllPosts(page, size, null, null));
+
+        String titleKeyword = null;
+        String contentKeyword = null;
+
+        if (keyword != null && !keyword.isEmpty()) {
+            if ("제목".equals(searchType)) titleKeyword = keyword;
+            else if ("내용".equals(searchType)) contentKeyword = keyword;
+            else { titleKeyword = keyword; contentKeyword = keyword; }
+        }
+        return ResponseEntity.ok(postService.getAllPosts(page, size, titleKeyword != null ? titleKeyword : contentKeyword, category));
     }
 
     // 게시글 삭제
