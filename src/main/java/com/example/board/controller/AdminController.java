@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,10 +24,11 @@ public class AdminController {
     private final PostService postService;
     private final StatsService statsService;
 
-    private static final String ADMIN_EMAIL = "qkrwldnsdlek@gmail.com";
+    @Value("${app.admin.email}")
+    private String adminEmail;
 
     private boolean isAdmin(String email) {
-        return ADMIN_EMAIL.equals(email);
+        return adminEmail.equals(email);
     }
 
     // 대시보드 통계
