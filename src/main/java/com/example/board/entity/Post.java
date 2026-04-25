@@ -41,6 +41,9 @@ public class Post {
     @Column
     private String category;
 
+    @Column
+    private String youtubeUrl;
+
     private LocalDateTime updatedAt;
 
     @PrePersist

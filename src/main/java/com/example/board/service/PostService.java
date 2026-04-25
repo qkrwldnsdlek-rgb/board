@@ -58,6 +58,7 @@ public class PostService {
         post.setImageUrl(updatedPost.getImageUrl());
         post.setCategory(updatedPost.getCategory());
         post.setUserId(updatedPost.getUserId());
+        post.setYoutubeUrl(updatedPost.getYoutubeUrl());
         return postRepository.save(post);
     }
 
