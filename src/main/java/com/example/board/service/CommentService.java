@@ -33,6 +33,11 @@ public class CommentService {
     }
 
     public void deleteComment(Long id) {
+        // 자식 댓글들 먼저 재귀 삭제
+        List<Comment> children = commentRepository.findByParentId(id);
+        for (Comment child : children) {
+            deleteComment(child.getId()); // 재귀
+        }
         commentRepository.deleteById(id);
     }
 
