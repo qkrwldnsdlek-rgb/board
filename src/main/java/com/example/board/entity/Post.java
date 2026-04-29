@@ -29,6 +29,8 @@ public class Post {
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
+    private LocalDateTime updatedAt;
+
     @Column(columnDefinition = "integer default 0")
     private int viewCount;
 
@@ -44,16 +46,13 @@ public class Post {
     @Column
     private String youtubeUrl;
 
-    private LocalDateTime updatedAt;
-
     @PrePersist
-    public void prePersist() {
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
+    protected void onCreate() {
+        createdAt = updatedAt = LocalDateTime.now();
     }
 
     @PreUpdate
-    public void preUpdate() {
-        this.updatedAt = LocalDateTime.now();
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
     }
 }
