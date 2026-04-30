@@ -2,6 +2,7 @@ package com.example.board.service;
 
 import com.example.board.entity.Comment;
 import com.example.board.repository.CommentRepository;
+import com.example.board.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -17,12 +18,34 @@ public class CommentService {
 
     private final CommentLikeRepository commentLikeRepository;
 
+    private final PostRepository postRepository; // Post 조회용
+
     public List<Comment> getComments(Long postId) {
         return commentRepository.findByPostIdOrderByCreatedAtAsc(postId);
     }
+    private final NotificationService notificationService;
 
     public Comment createComment(Comment comment) {
-        return commentRepository.save(comment);
+        Comment saved = commentRepository.save(comment);
+
+        // 게시글 작성자 조회
+        postRepository.findById(comment.getPostId()).ifPresent(post -> {
+            // 본인 글에 본인 댓글 제외
+            if (!post.getUserId().equals(comment.getUserId())) {
+                String message = comment.getAuthor() + "님이 댓글을 달았습니다.";
+                notificationService.createNotification(
+                        post.getUserId(),      // 알림 받을 사람 (글 작성자)
+                        comment.getUserId(),   // 알림 발생시킨 사람
+                        comment.getAuthor(),   // 닉네임
+                        post.getId(),          // 게시글 id
+                        post.getTitle(),       // 게시글 제목
+                        saved.getId(),         // 댓글 id
+                        message
+                );
+            }
+        });
+
+        return saved;
     }
 
     public Comment updateComment(Long id, String content) {
